@@ -20,15 +20,30 @@ def make_arrow():
     arrow.clip_draw(0, 0, 50, 52, point_x, point_y) #array의 x,y크기 50, 52픽셀
 
 def character_move():
+    global character_x, character_y, frame
+    frame = (frame + 1) % 5
     if (character_x > point_x):
+        clear_canvas()
+        ground.draw(TUK_X // 2, TUK_Y // 2)
+        arrow.clip_draw(0, 0, 50, 52, point_x, point_y)
         character.clip_draw(frame * 100, 10, 100, 80, character_x, character_y)  # left
-        if(character_x == point_x):
+        update_canvas()
+    elif (character_x == point_x):
+            clear_canvas()
+            ground.draw(TUK_X // 2, TUK_Y // 2)
             character.clip_draw(frame * 100, 310, 100, 80, character_x, character_y)  # left_stop
+            update_canvas()
     elif (character_x < point_x):
+        clear_canvas()
+        ground.draw(TUK_X // 2, TUK_Y // 2)
+        arrow.clip_draw(0, 0, 50, 52, point_x, point_y)
         character.clip_draw(frame * 100, 110, 100, 80, character_x, character_y)  # right
+        update_canvas()
         if(character_x == point_x):
+            clear_canvas()
+            ground.draw(TUK_X // 2, TUK_Y // 2)
             character.clip_draw(frame * 100, 410, 100, 80, character_x, character_y)  # right_stop
-
+            update_canvas()
 
 #화살표 따라가기
 def rand_events():
@@ -41,8 +56,8 @@ def rand_events():
             t = i / 100
             character_x = (1-t) * character_x + t * point_x
             character_y = (1-t) * character_y + t * point_y
-            #character_move()
-            #update_canvas()
+            character_move()
+            delay(0.2)
 
 
 while running:
@@ -51,6 +66,3 @@ while running:
     rand_events()
 
     # character.clip_draw(left,bottom,width,height,x,y)
-    update_canvas()
-    frame = (frame + 1) % 5
-    delay(0.4)
